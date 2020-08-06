@@ -7,6 +7,7 @@ install:
 
 script: 
     - ./build.sh
+    - ./deploy.sh
 
 cache:
   directories:
