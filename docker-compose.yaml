@@ -1,0 +1,7 @@
+version: '3'
+services:
+    aria2:
+        build: 
+          context: .
+          dockerfile: Dockerfile
+        image: xyzrlee/aria2
