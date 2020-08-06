@@ -32,15 +32,21 @@ RUN set -ex \
       zlib-dev \
       sqlite-dev \
       pkgconfig \
+      binutils \
  # Build & install
  && gcc --version \
  && git clone https://github.com/aria2/aria2.git /tmp/repo/aria2 \
  && cd /tmp/repo/aria2 \
  && autoreconf -i \
  && ./configure \
- && make -j4 \
- && install src/aria2c /usr/bin \
+ && make -j8 \
+ && cd src \
+ && strip aria2c \
+ && ls -lh aria2c \
+ && install aria2c /usr/bin \
+ && cd / \
  && apk del .build-deps \
+ && rm -rf /tmp/repo \
  # Runtime dependencies setup
  && apk add --no-cache \
       rng-tools \
@@ -48,7 +54,8 @@ RUN set -ex \
       | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
       | sort -u) \
  && aria2c -v \
- && chmod +x /exec/*.sh
+ && chmod +x /exec/*.sh \
+ && touch /conf/aria2.session
 
 ENTRYPOINT ["/exec/entrypoint.sh"]
 
