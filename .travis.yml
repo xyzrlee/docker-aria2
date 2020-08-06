@@ -1,0 +1,13 @@
+os: linux
+language: shell
+
+install:
+    - sudo apt-get update
+    - sudo apt-get install docker-compose -y
+
+script: 
+    - ./build.sh
+
+cache:
+  directories:
+    - "$HOME/cache"
