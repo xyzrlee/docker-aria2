@@ -2,11 +2,7 @@
 # Dockerfile for shadowsocks-libev
 #
 
-FROM alpine
-LABEL maintainer="Ricky Li <cnrickylee@gmail.com>"
-
-ADD conf/* /conf/
-ADD exec/* /exec/
+FROM alpine AS builder
 
 RUN set -ex \
  # Build environment setup
@@ -44,9 +40,18 @@ RUN set -ex \
  && strip aria2c \
  && ls -lh aria2c \
  && install aria2c /usr/bin \
- && cd / \
- && apk del .build-deps \
- && rm -rf /tmp/repo \
+ && aria2c -v
+
+# ------------------------------------------------
+
+FROM alpine AS builder
+
+COPY --from=builder /usr/bin/aria2c /usr/bin/aria2c
+
+ADD conf/* /conf/
+ADD exec/* /exec/
+
+RUN set -ex \
  # Runtime dependencies setup
  && apk add --no-cache \
       rng-tools \
