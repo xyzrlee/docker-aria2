@@ -44,7 +44,7 @@ RUN set -ex \
 
 # ------------------------------------------------
 
-FROM alpine AS builder
+FROM alpine
 
 COPY --from=builder /usr/bin/aria2c /usr/bin/aria2c
 
@@ -54,7 +54,6 @@ ADD exec/* /exec/
 RUN set -ex \
  # Runtime dependencies setup
  && apk add --no-cache \
-      rng-tools \
       $(scanelf --needed --nobanner /usr/bin/aria2c \
       | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
       | sort -u) \
