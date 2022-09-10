@@ -44,7 +44,7 @@ RUN set -ex \
 
 # ------------------------------------------------
 
-FROM python:3-alpine
+FROM alpine
 
 COPY --from=builder /usr/bin/aria2c /usr/bin/aria2c
 
@@ -57,6 +57,8 @@ RUN set -ex \
       $(scanelf --needed --nobanner /usr/bin/aria2c \
       | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
       | sort -u) \
+ && apk add --no-cache \
+      python3 \
  && aria2c -v \
  && chmod +x /exec/*.sh \
  && touch /conf/aria2.session
