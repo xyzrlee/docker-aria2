@@ -44,7 +44,7 @@ RUN set -ex \
 
 # ------------------------------------------------
 
-FROM alpine
+FROM python:3-alpine
 
 COPY --from=builder /usr/bin/aria2c /usr/bin/aria2c
 
