@@ -1,6 +1,6 @@
 #!/bin/sh
 
-chomd +x /exec/*.sh
+chmod +x /exec/*.sh
 
 mkdir -p /data
 
